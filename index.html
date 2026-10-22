@@ -81,6 +81,20 @@ button,.btn{transition:transform .25s ease,box-shadow .25s ease,background-color
 .academy-hero.airy-hero:after{background:linear-gradient(180deg,transparent 60%,rgba(12,76,53,.25) 100%)!important}
 .academy-trust-strip{background:#2CAB7C!important}.nav .cta{background:#2CAB7C!important;border-color:#2CAB7C!important;color:#fff!important}.nav .cta:hover{background:#177854!important}.nav button.active:not(.cta),.nav button:hover:not(.cta){color:#177854!important;background:#F0F7F4!important}.academy-partner-label{color:#177854!important}
 .academy-scroll-progress{background:linear-gradient(90deg,#2CAB7C,#78d3ac,#FF6700)!important}
+
+/* Sharper hero presentation: preserve image composition without fixed-background enlargement */
+.academy-hero.airy-hero{background-attachment:scroll!important;background-position:center center!important;background-size:cover!important}
+.academy-hero.airy-hero:before{background:linear-gradient(90deg,rgba(8,54,40,.79) 0%,rgba(23,100,75,.58) 37%,rgba(32,108,78,.18) 72%,rgba(0,0,0,.07) 100%)!important}
+.academy-hero.airy-hero:after{background:linear-gradient(180deg,rgba(0,0,0,.06),transparent 42%,rgba(0,0,0,.16))!important}
+.academy-hero .airy-intro h1,.academy-hero .airy-intro p{text-shadow:0 2px 18px rgba(0,0,0,.17)}
+.academy-partner-logo{background:#f7f9fa!important;border:0!important;min-height:115px!important}
+.linac-wordmark{font-family:Arial,sans-serif!important;letter-spacing:-.085em!important;font-weight:400!important;font-size:30px!important;color:#292929!important}
+.linac-symbol{display:inline-block;position:relative;font-size:0!important;width:20px;height:29px;margin-right:1px}
+.linac-symbol:before{content:"";position:absolute;top:1px;left:0;width:17px;height:14px;background:#5ba644;border-radius:12px 12px 3px 3px}
+.linac-symbol:after{content:"";position:absolute;bottom:0;left:1px;width:17px;height:13px;background:#e99c26;border-radius:3px 3px 12px 12px}
+.siu-wordmark{font-size:12px!important;letter-spacing:-.02em!important;color:#d97916!important;line-height:1.08!important}
+.siu-mark{font-size:37px!important;color:#79b45b!important;transform:rotate(-8deg)}
+@media(max-width:760px){.academy-hero.airy-hero{background-position:60% center!important}.academy-hero.airy-hero:before{background:linear-gradient(90deg,rgba(8,54,40,.84),rgba(23,100,75,.42))!important}.linac-wordmark{font-size:23px!important}.siu-wordmark{font-size:10px!important}.siu-mark{font-size:28px!important}}
 </style></head><body><div class="academy-scroll-progress" aria-hidden="true"></div><header><div class="topbar"><a href="#home" class="brand academy-brand-lockup" onclick="show('home')" aria-label="Gloway Academy home"><span class="academy-brand-symbol"><img src="https://gloway.trade/assets/logo.png" alt="Gloway" onerror="this.style.display='none'"></span><span class="academy-brand-divider" aria-hidden="true"></span><span class="academy-brand-name">ACADEMY</span></a><button class="mobile-nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" aria-label="Open navigation" onclick="toggleMobileNav()"><span></span><span></span><span></span></button><nav class="nav" id="site-navigation" aria-label="Main navigation"><button data-page="home" class="active" onclick="show('home')">Home</button><button data-page="cift" onclick="show('cift')">CIFT Qualification</button><button data-page="compliance" onclick="show('compliance')">Facility Compliance</button><button data-page="dashboard" onclick="show('dashboard')">Learner Portal</button><button data-page="lab" onclick="show('lab')">Simulation Lab</button><button class="cta" onclick="show('cift')">Explore CIFT ↗</button></nav></div></header>
 <div id="home" class="page active">
 <section class="academy-hero airy-hero"><div class="container airy-hero-inner"><div class="airy-intro"><div class="eyebrow">GLOWAY ACADEMY · PROFESSIONAL FOOD TRADE EDUCATION</div><h1>Build the skills to succeed<br><span>in international food trade.</span></h1><p>Develop professional food trade skills, explore the CIFT qualification pathway, and manage your food facility’s regulatory readiness through connected Gloway services.</p><div class="actions"><button class="btn green" onclick="show('cift')">Explore Training & CIFT ↗</button><button class="btn airy-outline" onclick="show('compliance')">Explore Facility Compliance →</button></div><p class="airy-status">CIFT qualification framework in development</p></div></div></section>
@@ -111,7 +125,7 @@ if(bar)bar.style.transform='scaleX('+Math.min(1,scrollY/max)+')';
 if(header)header.classList.toggle('academy-scrolled',scrollY>12);
 if(hero&&!reduced.matches&&innerWidth>900){
 const offset=Math.min(90,Math.max(0,scrollY*.15));
-hero.style.backgroundPosition='center calc(50% + '+offset+'px)';
+/* Background remains fixed within the hero for clearer native image rendering. */
 }
 }
 window.addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnimationFrame(update)}},{passive:true});
