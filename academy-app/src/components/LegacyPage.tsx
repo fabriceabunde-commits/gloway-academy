@@ -1,3 +1,3 @@
 import { pageHtml } from '../legacy/fragments';
-type PageName = keyof typeof pageHtml;
-export function LegacyPage({name}:{name:PageName}) { return <div dangerouslySetInnerHTML={{__html:pageHtml[name]}}/>; }
+import type { AcademyPage } from './SiteHeader';
+export function LegacyPage({name}:{name:Exclude<AcademyPage,'lab'>}) { return <div dangerouslySetInnerHTML={{__html:pageHtml[name].replace('class="page"','class="page active"')}}/>; }
