@@ -1,0 +1,41 @@
+name: Deploy Academy React preview
+on:
+  workflow_dispatch:
+    inputs:
+      pages_project:
+        description: 'Existing Cloudflare Pages project name (not the public URL)'
+        required: true
+        type: string
+      preview_branch:
+        description: 'Cloudflare preview alias (must not be main or production)'
+        required: true
+        default: 'react-migration-preview'
+        type: string
+jobs:
+  preview:
+    if: ${{ github.ref_name == 'phase-0-react-migration' && inputs.preview_branch != 'main' && inputs.preview_branch != 'production' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: academy-app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Validate application
+        run: npm run build && npm test
+      - name: Deploy isolated Cloudflare Pages preview
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PAGES_PROJECT: ${{ inputs.pages_project }}
+          PREVIEW_BRANCH: ${{ inputs.preview_branch }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing CLOUDFLARE_API_TOKEN secret"; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Missing CLOUDFLARE_ACCOUNT_ID secret"; exit 1; }
+          npx --yes wrangler@4 pages deploy dist --project-name "$PAGES_PROJECT" --branch "$PREVIEW_BRANCH"
