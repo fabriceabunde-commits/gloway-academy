@@ -58,7 +58,7 @@ export function App() {
         {page === 'home' ? <HomePage /> :
          page === 'cift' ? <CiftPage /> :
          page === 'compliance' ? <CompliancePage /> :
-         page === 'dashboard' ? <LearnerPreviewPage /> : <SimulationDemo />}
+         page === 'dashboard' ? <LearnerPreviewPage /> : <ContainerExportSimulator />}
       </main>
       <div dangerouslySetInnerHTML={{ __html: footerHtml }} />
     </>
