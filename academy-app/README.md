@@ -1,28 +1,28 @@
-# Gloway Academy — React migration preview
+# Gloway Academy — Phase 0 migration
 
-This app is a **separate migration workspace**. The current root `index.html` remains the production website and is intentionally unchanged.
+This React + TypeScript + Vite application is a **non-production migration preview**. Root `index.html` remains the live website.
 
-## Development
+## Status
+- [x] React/TypeScript project scaffold
+- [x] Existing production page markup separated into per-page modules
+- [x] Existing production CSS imported without redesign
+- [x] Existing interactive behaviors preserved through temporary legacy JS bridge
+- [x] Academy homepage, compliance, CIFT, learner portal, simulation lab and footer included
+- [ ] Convert legacy HTML and global JS to idiomatic React components/hooks
+- [ ] Copy/verify all image assets in preview build (existing paths reference site-root images)
+- [ ] Verify visual and functional parity on desktop/mobile
+- [ ] Verify build and test workflow
+- [ ] Set Cloudflare build configuration only after parity checks
 
+## Run
 ```sh
 cd academy-app
 npm install
-npm run dev
 npm run build
-npm test
+npm run dev
 ```
 
-## Migration status
+The existing Simulation Lab is a demonstration case, **not** the full shipment engine. Learner portal is illustrative; no account persistence is implemented.
 
-- [x] React/TypeScript/Vite scaffold and route boundaries
-- [x] Responsive base layout and brand tokens
-- [ ] Port all existing homepage content, imagery, animations, and navigation
-- [ ] Implement simulation state and rules packages
-- [ ] Implement learner authentication and persistence
-- [ ] Add end-to-end and accessibility tests
-- [ ] Verify visual parity at mobile/tablet/desktop widths
-- [ ] Update Cloudflare build configuration and deploy after verification
-
-The Simulation Lab, Learner Portal and Reports pages are **explicit placeholders**, not working products.
-
-**Deployment safety:** Do not point Cloudflare Pages at `academy-app` until parity and functional checks pass.
+## Safety
+Do not deploy this preview to production until visual, interaction, asset, and accessibility checks pass. The compatibility bridge temporarily uses HTML injection of repository-controlled static content only. It must not accept untrusted content.
