@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { LegacyPage } from './components/LegacyPage';
 import { SiteHeader, type AcademyPage } from './components/SiteHeader';
 import { SimulationDemo } from './components/SimulationDemo';
+import { CompliancePage } from './components/CompliancePage';
 import { footerHtml } from './legacy/fragments';
 import './legacy/legacy.css';
 const pages:AcademyPage[]=['home','cift','compliance','dashboard','lab'];
@@ -10,7 +11,7 @@ declare global {interface Window {show:(page:AcademyPage)=>void;renderReadiness?
 export function App(){const [page,setPage]=useState<AcademyPage>(fromHash);
  const navigate=useCallback((id:AcademyPage)=>{if(!pages.includes(id))return;setPage(id);history.replaceState(null,'','#'+id);window.scrollTo({top:0,behavior:'instant'})},[]);
  useEffect(()=>{window.show=navigate;const onHash=()=>setPage(fromHash());window.addEventListener('hashchange',onHash);return ()=>window.removeEventListener('hashchange',onHash)},[navigate]);
- useEffect(()=>{const script=document.createElement('script');script.src='/readiness-and-motion.js';script.dataset.academyLegacy='true';document.body.appendChild(script);return ()=>script.remove()},[]);
- useEffect(()=>{if(page==='compliance')window.renderReadiness?.()},[page]);
- return <><SiteHeader page={page} navigate={navigate}/>{page==='lab'?<SimulationDemo/>:<LegacyPage name={page}/>}<div dangerouslySetInnerHTML={{__html:footerHtml}}/></>;
+
+
+ return <><SiteHeader page={page} navigate={navigate}/>{page==='lab'?<SimulationDemo/>:page==='compliance'?<CompliancePage/>:<LegacyPage name={page}/>}<div dangerouslySetInnerHTML={{__html:footerHtml}}/></>;
 }
