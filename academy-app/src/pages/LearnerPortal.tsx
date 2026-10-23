@@ -1,0 +1,1 @@
+export function LearnerPortal(){return <section className="panel"><p className="eyebrow">LEARNER PORTAL</p><h1>Your learning journey</h1><p>Course enrollment, progress tracking and learning records will appear here after authentication and persistence are implemented.</p><p className="notice">Preview only — no learner accounts or progress storage yet.</p></section>}
