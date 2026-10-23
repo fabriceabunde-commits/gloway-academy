@@ -1,0 +1,22 @@
+name: Validate React migration
+on:
+  push:
+    branches: [phase-0-react-migration]
+  pull_request:
+    paths:
+      - 'academy-app/**'
+      - '.github/workflows/academy-app.yml'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: academy-app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - run: npm run build
+      - run: npm test
