@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { SiteHeader, type AcademyPage } from './components/SiteHeader';
-import { SimulationDemo } from './components/SimulationDemo';
+import { ContainerExportSimulator } from './components/ContainerExportSimulator';
 import { CompliancePage } from './components/CompliancePage';
 import { HomePage } from './pages/HomePage';
 import { CiftPage } from './pages/CiftPage';
