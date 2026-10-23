@@ -1,16 +1,15 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { LegacyPage } from './components/LegacyPage';
-import { footerHtml, headerHtml } from './legacy/fragments';
+import { SiteHeader, type AcademyPage } from './components/SiteHeader';
+import { SimulationDemo } from './components/SimulationDemo';
+import { footerHtml } from './legacy/fragments';
 import './legacy/legacy.css';
-/** Transitional compatibility layer: keeps original pages, styles and interactions intact
- * while their content is converted into native React components incrementally. */
-export function App(){
-  useEffect(()=>{
-    const script=document.createElement('script');
-    script.src='/legacy-behavior.js';
-    script.dataset.academyLegacy='true';
-    document.body.appendChild(script);
-    return ()=>{script.remove()};
-  },[]);
-  return <><div dangerouslySetInnerHTML={{__html:headerHtml}}/><LegacyPage name="home"/><LegacyPage name="compliance"/><LegacyPage name="cift"/><LegacyPage name="dashboard"/><LegacyPage name="lab"/><div dangerouslySetInnerHTML={{__html:footerHtml}}/></>;
+const pages:AcademyPage[]=['home','cift','compliance','dashboard','lab'];
+function fromHash():AcademyPage{const hash=window.location.hash.slice(1);return pages.includes(hash as AcademyPage)?hash as AcademyPage:'home'}
+declare global {interface Window {show:(page:AcademyPage)=>void}}
+export function App(){const [page,setPage]=useState<AcademyPage>(fromHash);
+ const navigate=useCallback((id:AcademyPage)=>{if(!pages.includes(id))return;setPage(id);history.replaceState(null,'','#'+id);window.scrollTo({top:0,behavior:'instant'})},[]);
+ useEffect(()=>{window.show=navigate;const onHash=()=>setPage(fromHash());window.addEventListener('hashchange',onHash);return ()=>window.removeEventListener('hashchange',onHash)},[navigate]);
+ useEffect(()=>{const script=document.createElement('script');script.src='/legacy-behavior.js';script.dataset.academyLegacy='true';document.body.appendChild(script);return ()=>script.remove()},[]);
+ return <><SiteHeader page={page} navigate={navigate}/>{page==='lab'?<SimulationDemo/>:<LegacyPage name={page}/>}<div dangerouslySetInnerHTML={{__html:footerHtml}}/></>;
 }
