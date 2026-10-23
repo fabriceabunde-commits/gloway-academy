@@ -1,28 +1,28 @@
-# Gloway Academy — Phase 0 migration
+# Gloway Academy — Phase 0 React migration
 
-This React + TypeScript + Vite application is a **non-production migration preview**. Root `index.html` remains the live website.
+Non-production migration preview. Root `index.html` is still the production website.
 
-## Status
-- [x] React/TypeScript project scaffold
-- [x] Existing production page markup separated into per-page modules
-- [x] Existing production CSS imported without redesign
-- [x] Existing interactive behaviors preserved through temporary legacy JS bridge
-- [x] Academy homepage, compliance, CIFT, learner portal, simulation lab and footer included
-- [ ] Convert legacy HTML and global JS to idiomatic React components/hooks
-- [ ] Copy/verify all image assets in preview build (existing paths reference site-root images)
-- [ ] Verify visual and functional parity on desktop/mobile
-- [ ] Verify build and test workflow
-- [ ] Set Cloudflare build configuration only after parity checks
+## Completed
+- React/TypeScript/Vite foundation and CI workflow
+- Original page markup and CSS preserved as repository-controlled legacy fragments
+- Native React navigation with mobile menu and hash-based page selection
+- Native React interactive simulation demo with local decision state and feedback
+- Existing CIFT, homepage, compliance and learner portal pages preserved
 
-## Run
+## Still required
+- Convert facility readiness checklist into native React state/hooks
+- Convert remaining static pages into React components
+- Replace remaining legacy JS bridge (readiness and scroll animations)
+- Verify image assets, interactions, desktop/mobile visual parity, accessibility and build
+- Deploy only after acceptance checks
+
+## Local commands
 ```sh
 cd academy-app
 npm install
 npm run build
+npm test
 npm run dev
 ```
 
-The existing Simulation Lab is a demonstration case, **not** the full shipment engine. Learner portal is illustrative; no account persistence is implemented.
-
-## Safety
-Do not deploy this preview to production until visual, interaction, asset, and accessibility checks pass. The compatibility bridge temporarily uses HTML injection of repository-controlled static content only. It must not accept untrusted content.
+The simulation demonstration is not the full shipment simulator. No real learner authentication, regulatory determination, persistent progress or live submission is provided.
