@@ -7,11 +7,60 @@ import { CiftPage } from './pages/CiftPage';
 import { LearnerPreviewPage } from './pages/LearnerPreviewPage';
 import { footerHtml } from './legacy/fragments';
 import './legacy/legacy.css';
-const pages:AcademyPage[]=['home','cift','compliance','dashboard','lab'];
-function fromHash():AcademyPage{const hash=window.location.hash.slice(1);return pages.includes(hash as AcademyPage)?hash as AcademyPage:'home'}
-declare global {interface Window {show:(page:AcademyPage)=>void}}
-export function App(){const [page,setPage]=useState<AcademyPage>(fromHash);
- const navigate=useCallback((id:AcademyPage)=>{if(!pages.includes(id))return;setPage(id);history.replaceState(null,'','#'+id);window.scrollTo({top:0,behavior:'instant'})},[]);
- useEffect(()=>{window.show=navigate;const onHash=()=>setPage(fromHash());window.addEventListener('hashchange',onHash);return ()=>window.removeEventListener('hashchange',onHash)},[navigate]);
- return <><SiteHeader page={page} navigate={navigate}/><main id="main-content">{page==='home'?<HomePage/>:page==='cift'?<CiftPage/>:page==='compliance'?<CompliancePage/>:page==='dashboard'?<LearnerPreviewPage/>:<SimulationDemo/>}</main><div dangerouslySetInnerHTML={{__html:footerHtml}}/></>;
+
+const pages: AcademyPage[] = ['home', 'cift', 'compliance', 'dashboard', 'lab'];
+function fromHash(): AcademyPage {
+  const hash = window.location.hash.slice(1);
+  return pages.includes(hash as AcademyPage) ? hash as AcademyPage : 'home';
+}
+declare global { interface Window { show: (page: AcademyPage) => void } }
+
+export function App() {
+  const [page, setPage] = useState<AcademyPage>(fromHash);
+
+  const navigate = useCallback((id: AcademyPage) => {
+    if (!pages.includes(id)) return;
+    if (window.location.hash !== '#' + id) {
+      window.location.hash = id;
+    }
+    setPage(id);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
+  useEffect(() => {
+    window.show = navigate;
+    const onHash = () => {
+      setPage(fromHash());
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, [navigate]);
+
+  // Legacy editorial HTML contains inline show('...') navigation actions.
+  // Route those clicks through React until all editorial sections are native JSX.
+  const onLegacyClick = (event: React.MouseEvent<HTMLElement>) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const action = target.closest('[onclick]');
+    const inlineAction = action?.getAttribute('onclick') ?? '';
+    const match = inlineAction.match(/^\s*(?:window\.)?show\(['"]([a-z]+)['"]\)\s*;?\s*$/);
+    if (match && pages.includes(match[1] as AcademyPage)) {
+      event.preventDefault();
+      navigate(match[1] as AcademyPage);
+    }
+  };
+
+  return (
+    <>
+      <SiteHeader page={page} navigate={navigate} />
+      <main id="main-content" onClick={onLegacyClick}>
+        {page === 'home' ? <HomePage /> :
+         page === 'cift' ? <CiftPage /> :
+         page === 'compliance' ? <CompliancePage /> :
+         page === 'dashboard' ? <LearnerPreviewPage /> : <SimulationDemo />}
+      </main>
+      <div dangerouslySetInnerHTML={{ __html: footerHtml }} />
+    </>
+  );
 }
