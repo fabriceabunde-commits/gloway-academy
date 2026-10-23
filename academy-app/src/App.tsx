@@ -10,6 +10,6 @@ declare global {interface Window {show:(page:AcademyPage)=>void}}
 export function App(){const [page,setPage]=useState<AcademyPage>(fromHash);
  const navigate=useCallback((id:AcademyPage)=>{if(!pages.includes(id))return;setPage(id);history.replaceState(null,'','#'+id);window.scrollTo({top:0,behavior:'instant'})},[]);
  useEffect(()=>{window.show=navigate;const onHash=()=>setPage(fromHash());window.addEventListener('hashchange',onHash);return ()=>window.removeEventListener('hashchange',onHash)},[navigate]);
- useEffect(()=>{const script=document.createElement('script');script.src='/legacy-behavior.js';script.dataset.academyLegacy='true';document.body.appendChild(script);return ()=>script.remove()},[]);
+ useEffect(()=>{const script=document.createElement('script');script.src='/readiness-and-motion.js';script.dataset.academyLegacy='true';document.body.appendChild(script);return ()=>script.remove()},[]);
  return <><SiteHeader page={page} navigate={navigate}/>{page==='lab'?<SimulationDemo/>:<LegacyPage name={page}/>}<div dangerouslySetInnerHTML={{__html:footerHtml}}/></>;
 }
