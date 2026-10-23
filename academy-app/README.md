@@ -27,3 +27,11 @@ npm run dev
 ```
 
 **No learner data is saved.** The simulation is a single educational demonstration, not a full export simulation engine. CIFT is in development and is not presented as an accredited qualification.
+
+## Cloudflare preview deployment
+
+A manually gated preview workflow is defined at `.github/workflows/academy-preview.yml` on the migration branch. It uses GitHub Actions secrets `CLOUDFLARE_API_TOKEN` (Pages edit permission) and `CLOUDFLARE_ACCOUNT_ID`, plus an explicit Cloudflare Pages project name. The branch alias must not be `main` or `production`.
+
+**GitHub limitation:** A new `workflow_dispatch` workflow must first be registered on the repository's default branch before it can be launched from the Actions UI. Merely committing it to this feature branch does not activate its Run workflow button. Do not merge the React application or change production build settings just to activate this workflow. An administrator may copy **only the workflow file** to the default branch after reviewing it, then select `phase-0-react-migration` when manually dispatching the preview. Alternatively, create a separate Cloudflare Pages preview project with root `academy-app`, build command `npm run build`, output `dist`, and branch `phase-0-react-migration`.
+
+No Cloudflare deployment has been made by this repository change.
