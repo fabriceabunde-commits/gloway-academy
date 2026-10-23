@@ -1,22 +1,23 @@
-# Gloway Academy — Phase 0 React migration
+# Gloway Academy — Phase 0 migration
 
-Non-production migration preview. Root `index.html` is still the production website.
+The existing root `index.html` remains the **live production website**. The modular Vite app in this directory is a development preview.
 
-## Completed
-- React/TypeScript/Vite foundation and CI workflow
-- Original page markup and CSS preserved as repository-controlled legacy fragments
-- Native React navigation with mobile menu and hash-based page selection
-- Native React interactive simulation demo with local decision state and feedback
-- Existing CIFT, homepage, compliance and learner portal pages preserved
+## Architecture now
+- React/TypeScript/Vite foundation
+- React mobile navigation, hash-based page selection, and accessibility landmarks
+- Native React simulation decision demonstration
+- Native React facility readiness checklist, progress tracking and action plan export
+- Dedicated homepage, CIFT, learner portal, compliance and simulation page modules
+- Original static editorial markup and CSS temporarily retained while JSX conversion continues
 
-## Still required
-- Convert facility readiness checklist into native React state/hooks
-- Convert remaining static pages into React components
-- Replace remaining legacy JS bridge (readiness and scroll animations)
-- Verify image assets, interactions, desktop/mobile visual parity, accessibility and build
-- Deploy only after acceptance checks
+## Remaining migration gates
+1. Move editorial markup from static HTML fragments into semantic JSX sections.
+2. Replace legacy image references with bundled assets, checking the files against production.
+3. Run CI build and unit tests, resolve any failures.
+4. Compare desktop and mobile visuals and all interactions against production.
+5. Configure Cloudflare Pages build output to `academy-app/dist` only after approval.
 
-## Local commands
+## Local development
 ```sh
 cd academy-app
 npm install
@@ -25,4 +26,4 @@ npm test
 npm run dev
 ```
 
-The simulation demonstration is not the full shipment simulator. No real learner authentication, regulatory determination, persistent progress or live submission is provided.
+**No learner data is saved.** The simulation is a single educational demonstration, not a full export simulation engine. CIFT is in development and is not presented as an accredited qualification.
